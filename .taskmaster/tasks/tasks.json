@@ -22,8 +22,63 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Core Event Data Classes and Type Definitions",
+            "description": "Define HookEvent and ToolUseEvent dataclasses with proper typing for all 7 Claude Code hook event types",
+            "dependencies": [],
+            "details": "Create dataclasses for HookEvent base class and ToolUseEvent with fields for event_type, timestamp, data payload, and metadata. Define proper type hints using typing module for all event types (PreToolUse, PostToolUse, PreEdit, PostEdit, PreWrite, PostWrite, PreCommit). Add validation methods and serialization support for JSON conversion.",
+            "status": "done",
+            "testStrategy": "Unit tests for dataclass creation, field validation, type checking, and JSON serialization/deserialization for each event type"
+          },
+          {
+            "id": 2,
+            "title": "Implement JSON Event Parser and Validator",
+            "description": "Build JSON parsing system with schema validation for incoming hook events from Claude Code",
+            "dependencies": [
+              1
+            ],
+            "details": "Create JSON parser that validates incoming hook event data against predefined schemas using jsonschema library. Implement error handling for malformed JSON and invalid event structures. Add schema definitions for each of the 7 hook event types with required fields validation. Create parser factory that returns appropriate event objects based on event type.",
+            "status": "pending",
+            "testStrategy": "Test JSON parsing with valid and invalid event data, validate schema enforcement, test error handling for malformed input, verify correct event object creation"
+          },
+          {
+            "id": 3,
+            "title": "Create Event Dispatcher and Routing System",
+            "description": "Implement event dispatcher that routes parsed events to appropriate handler processors",
+            "dependencies": [
+              2
+            ],
+            "details": "Build event dispatcher class that receives parsed HookEvent objects and routes them to registered processor handlers based on event type. Implement handler registry with dynamic registration capabilities. Add event filtering and conditional routing based on event metadata. Create async event processing pipeline with error isolation between handlers.",
+            "status": "pending",
+            "testStrategy": "Test event routing to correct handlers, verify handler registration system, test async processing pipeline, validate error isolation and recovery"
+          },
+          {
+            "id": 4,
+            "title": "Implement JSON Response Generation System",
+            "description": "Create response generation system for continue/block/feedback actions with proper JSON formatting",
+            "dependencies": [
+              1
+            ],
+            "details": "Build response generator that creates properly formatted JSON responses for Claude Code consumption. Implement response types for continue (allow operation), block (prevent operation), and feedback (provide information). Add response validation and formatting according to Claude Code hook response specification. Create response builder with fluent API for easy response construction.",
+            "status": "pending",
+            "testStrategy": "Test JSON response formatting for all response types, validate response schema compliance, test response builder API, verify integration with Claude Code response format"
+          },
+          {
+            "id": 5,
+            "title": "Create Abstract Base Classes and Hook Processor Framework",
+            "description": "Implement abstract base classes for hook processors with standardized interface and error handling",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Create abstract BaseHookProcessor class with standard interface methods (process_event, validate_input, generate_response). Implement concrete processor classes for each hook type (PreToolUseProcessor, PostToolUseProcessor, etc.). Add comprehensive error handling with logging and recovery mechanisms. Create processor lifecycle management and cleanup procedures.",
+            "status": "pending",
+            "testStrategy": "Test abstract base class interface compliance, verify processor lifecycle management, test error handling and recovery, validate logging and monitoring integration"
+          }
+        ]
       },
       {
         "id": 3,
@@ -159,11 +214,26 @@
         ],
         "status": "pending",
         "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Implement Discord Integration System",
+        "description": "Create a comprehensive Discord integration system that sends notifications to specific channels/users and handles interactive responses through numbered choices and emoji reactions.",
+        "details": "Implement Discord bot using discord.js or discord.py with proper authentication and permissions setup. Create notification system that can target specific channels by ID or users by mention/ID with configurable message templates. Build interactive response system supporting numbered choice buttons (1, 2, 3) and custom emoji reactions with timeout handling. Implement webhook integration for secure message sending without bot presence. Add reaction event listeners with proper event filtering and user validation. Create action processing system that maps reactions to specific handlers or callbacks. Implement rate limiting and error handling for Discord API calls with exponential backoff. Add configuration management for bot tokens, channel IDs, and authorized users. Create message formatting with embeds, rich content, and attachment support. Implement logging and monitoring for Discord interactions with security audit trails. Add support for threaded conversations and message updates. Create fallback mechanisms for API failures and connection issues.",
+        "testStrategy": "Test Discord bot authentication and permission setup in development server. Verify message sending to specific channels and direct messages to users. Test interactive button responses and emoji reaction detection with multiple users. Validate timeout handling for unanswered interactions. Test rate limiting behavior under high message volume. Verify webhook functionality and security token validation. Test reaction-to-action mapping with various emoji types. Validate error handling for invalid channels, unauthorized users, and API failures. Test message formatting with embeds and attachments. Verify logging and audit trail functionality. Test concurrent interactions and thread safety. Validate fallback mechanisms during Discord API outages.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          8,
+          11
+        ],
+        "priority": "medium",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-07-19T09:35:13.475Z",
-      "updated": "2025-07-19T09:43:25.480Z",
+      "updated": "2025-07-19T10:11:07.332Z",
       "description": "Tasks for master context"
     }
   }
